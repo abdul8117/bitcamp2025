@@ -1,21 +1,21 @@
 import sqlite3
 
-DB_NAME = 'database.db'
+DB_NAME = 'db/database.db'
 
 def create_database():
   conn = sqlite3.connect(DB_NAME)
   cursor = conn.cursor()
 
   # delete the database if it exists
-  cursor.execute('DROP TABLE IF EXISTS Users')
-  cursor.execute('DROP TABLE IF EXISTS Households')
+  cursor.execute('DROP TABLE IF EXISTS User')
+  cursor.execute('DROP TABLE IF EXISTS Household')
   cursor.execute('DROP TABLE IF EXISTS UserHousehold')
   cursor.execute('DROP TABLE IF EXISTS Chores')
   cursor.execute('DROP TABLE IF EXISTS ChoreRecurrence')
-  cursor.execute('DROP TABLE IF EXISTS ChoreAssignments')
-  cursor.execute('DROP TABLE IF EXISTS ChoreCompletions')
-  cursor.execute('DROP TABLE IF EXISTS ChoreSubstitutions')
-  cursor.execute('DROP TABLE IF EXISTS ChoreDebts')
+  cursor.execute('DROP TABLE IF EXISTS ChoreAssignment')
+  cursor.execute('DROP TABLE IF EXISTS ChoreCompletion')
+  cursor.execute('DROP TABLE IF EXISTS ChoreSubstitution')
+  cursor.execute('DROP TABLE IF EXISTS ChoreDebt')
   conn.commit()
 
   statement = '''
@@ -23,7 +23,7 @@ def create_database():
         user_id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL,
+        password TEXT NOT NULL
     );
 
     CREATE TABLE Household (
@@ -108,7 +108,7 @@ def create_database():
   '''
 
   # Create users table if it doesn't exist
-  cursor.execute(statement)
+  cursor.executescript(statement)
 
   conn.commit()
   conn.close()
@@ -174,19 +174,10 @@ def add_user(name, email, password):
   conn = sqlite3.connect(DB_NAME)
   cursor = conn.cursor()
 
-  # Create users table if it doesn't exist
-  cursor.execute('''
-      CREATE TABLE IF NOT EXISTS users (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT UNIQUE NOT NULL,
-          email TEXT UNIQUE NOT NULL,
-          password TEXT NOT NULL
-      )
-  ''')
-
   # Insert a new user into the users table
-  cursor.execute('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', (name, email, password))
+  cursor.execute('INSERT INTO User (name, email, password) VALUES (?, ?, ?)', (name, email, password))
   conn.commit()
+  print("testline: User added successfully")
   conn.close()
 
 def get_user(email):
@@ -194,7 +185,7 @@ def get_user(email):
   cursor = conn.cursor()
 
   # Retrieve the user from the users table
-  cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
+  cursor.execute('SELECT * FROM User WHERE email = ?', (email,))
   user = cursor.fetchone()
   conn.close()
 
