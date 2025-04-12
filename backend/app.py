@@ -9,27 +9,24 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Change in production
 
-CORS(app, supports_credentials=True)
-
-# In-memory user store (for testing only)
-emails = {}
+CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"], supports_credentials=True) # Allow CORS for frontend  
 
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.json
-    username = data.get('username')
+    name = data.get('name')
     email = data.get('email')
     password = data.get('password')
 
-    if not username or not password or not email:
+    if not name or not password or not email:
         print("print line testing")
-        return jsonify({'error': 'Username, password, or email required'}), 400
+        return jsonify({'error': 'name, password, or email required'}), 400
     
     # TODO add database support
     
     # hash salted password here
     password_hash = generate_password_hash(password, method='scrypt', salt_length = 200) # hash the password with scrypt algorithm and a salt length of 200 bytes
-    add_user(username, email, password_hash) # add user to the database with hased password. all 3 are strings
+    add_user(name, email, password_hash) # add user to the database with hased password. all 3 are strings
     session['email'] = email
     return jsonify({'message': 'User created'}), 201 # readback success
 
@@ -51,14 +48,14 @@ def login():
             
 @app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('username', None)
+    session.pop('name', None)
     return jsonify({'message': 'Logged out'}), 200
 
 @app.route('/me', methods=['GET'])
 def me():
-    username = session.get('username')
-    if username:
-        return jsonify({'username': username})
+    name = session.get('name')
+    if name:
+        return jsonify({'name': name})
     return jsonify({'error': 'Unauthorized'}), 401
 
 if __name__ == '__main__':
