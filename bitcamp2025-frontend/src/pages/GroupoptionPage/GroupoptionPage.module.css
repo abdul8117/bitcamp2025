@@ -29,19 +29,19 @@ body {
 .Right {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   height: 100%;
+  padding-right: 0px; /* Optional: adds extra space to the right */
 }
 
 .sliderContainer {
-  width: 100%;
-  height: 100%;
+  width: 200%;
+  height: 200%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
+}
 
 /* Optional styling for the button and title */
 h1 {
