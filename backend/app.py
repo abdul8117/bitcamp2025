@@ -114,15 +114,15 @@ def get_chores_in_household():
 @app.route("/add-chore", methods=["POST"])
 def add_chore():
     data = request.json
-    chore_name = data.get("name")
+    chore_name = data.get("chore_name")
     repeat = data.get("repeat")
-    
+
     user_email = session.get('user', {}).get('email')
     user_id = get_user(user_email)[0]
 
     household_id = get_household_by_user_id(user_id)
 
-    add_chore_to_household(chore_name, household_id)
+    add_chore_to_household(chore_name, repeat, household_id)
 
     return jsonify({'message': 'Chore added'}), 201
 

@@ -147,12 +147,12 @@ def add_chore_to_household(chore_name, repeat, household_id):
   cursor = conn.cursor()
 
   # add new recurrance to ChoreRecurrance table
-  cursor.execute('INSERT INTO ChoreRecurrance (frequency) VALUES (?)', (repeat,))
+  cursor.execute('INSERT INTO ChoreRecurrence (frequency) VALUES (?)', (repeat,))
   conn.commit()
   
   # get the id of the new recurrance
   row_id = cursor.lastrowid
 
-  cursor.execute('INSERT INTO Chore (household_id, name, description, recurrance_id) VALUES (?, ?, ?, ?)', (household_id, chore_name, 'empty', row_id))
+  cursor.execute('INSERT INTO Chore (household_id, name, description, recurrence_id) VALUES (?, ?, ?, ?)', (household_id, chore_name, 'empty', row_id))
   conn.commit()
   conn.close()
