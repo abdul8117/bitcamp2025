@@ -7,6 +7,7 @@ body {
   padding: 0;
   height: 100%;
   background-color: white;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 /* Container that fills the screen and centers content */
@@ -18,6 +19,40 @@ body {
   height: 100vh;
   background-color: white;
   text-align: center;
+  background: url("../../assets/Task Creation 7a.svg") no-repeat center top;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+}
+
+.mograFont {
+  font-family: 'Mogra', sans-serif;
+  /* This is the font used in the mockup */
+}
+
+.taskContainer {
+  color: #6290C3;
+  flex-direction: column; /* Enables Flexbox */
+  justify-content: center; /* Centers items horizontally */
+  gap: 10%; /* Adds space between the task text and the box */
+  width: 100%; /* Ensures the container spans the full width */
+}
+
+.box {
+  width: 300px;
+  height: 25px;
+  background-color: #f0f0f0;
+  border: 2px solid #6290C3;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center; /* Centers the text inside the box */
+  align-items: center; /* Centers the text inside the box */
+}
+
+.task {
+  align-items: "center";
+  flex-direction: row;
+  font-size: 1.5rem;
 }
 
 /* Optional styling for the button and title */
