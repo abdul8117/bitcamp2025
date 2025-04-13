@@ -357,15 +357,6 @@ const EdittaskPage = () => {
           </div>
         </div>
 
-        <div className={styles.container}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "8%",
-              width: "100%",
-            }}
-          >
             <button
               style={{
                 borderRadius: "10px",
@@ -375,8 +366,7 @@ const EdittaskPage = () => {
                 width: "30%",
                 fontSize: "1.25rem",
               }}
-              onClick={handleEditingTask}
-            >
+              onClick={handleEditingTask}>
               confirm
             </button>
             <button
@@ -388,12 +378,9 @@ const EdittaskPage = () => {
                 width: "30%",
                 fontSize: "1.25rem",
               }}
-              onClick={() => navigate(-1)}
-            >
+              onClick={() => navigate(-1)}>
               go back
             </button>
-          </div>
-        </div>
       </div>
     </div>
   );
