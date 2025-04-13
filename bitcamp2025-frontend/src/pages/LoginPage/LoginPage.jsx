@@ -39,6 +39,9 @@ const LoginPage = () => {
     <div className={styles.background}>
       <form className={styles.form} onSubmit={handleLogin}>
         <div className={styles.mograFont}>
+
+
+          
           <div className={styles.inputs}>
             <div
               style={{
@@ -105,6 +108,10 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
+
+
+
+        {/* stylized confirm button */}
         <div className={styles.mograFont}>
           <div
             style={{
@@ -128,6 +135,9 @@ const LoginPage = () => {
             </button>
           </div>
         </div>
+
+
+
       </form>
     </div>
   );
