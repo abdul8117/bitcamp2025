@@ -10,14 +10,51 @@ import house4 from "../assets/house4.png";
 import house5 from "../assets/house5.png";
 import house6 from "../assets/house6.png";
 
+async function getUserHouses() {
+  // get request
+  try {
+    const response = await fetch("http://127.0.0.1:5000/get-houses/", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    throw new Error("Error fetching houses: " + error.message);
+  }
+}
+
+const house_names = await getUserHouses().then((data) => {
+  console.log(data);
+  return data;
+});
+
 const images = [
-  { src: house1, title: "Modern Villa" },
-  { src: house2, title: "Rustic Cottage" },
-  { src: house3, title: "Urban Loft" },
-  { src: house4, title: "Beach House" },
-  { src: house5, title: "Mountain Cabin" },
-  { src: house6, title: "Luxury Estate" },
+  house_names.map((house) => {
+    return {
+      src: house.image,
+      title: house.name,
+    };
+  }),
 ];
+
+// const images = [
+//   { src: house1, title: "Modern Villa" },
+//   { src: house2, title: "Rustic Cottage" },
+//   { src: house3, title: "Urban Loft" },
+//   { src: house4, title: "Beach House" },
+//   { src: house5, title: "Mountain Cabin" },
+//   { src: house6, title: "Luxury Estate" },
+// ];
 
 const SimpleSlider = ({ onHouseClick }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -25,9 +62,7 @@ const SimpleSlider = ({ onHouseClick }) => {
 
   return (
     <div className={styles.sliderWrapper}>
-      <div className={styles.houseName}>
-        {images[activeIndex].title}
-      </div>
+      <div className={styles.houseName}>{images[activeIndex].title}</div>
 
       <Swiper
         slidesPerView={1.5}
@@ -42,7 +77,10 @@ const SimpleSlider = ({ onHouseClick }) => {
           <SwiperSlide key={index} className={styles.slide}>
             <button
               onClick={() => {
-                if (swiperRef.current && swiperRef.current.realIndex !== index) {
+                if (
+                  swiperRef.current &&
+                  swiperRef.current.realIndex !== index
+                ) {
                   swiperRef.current.slideToLoop(index);
                 } else {
                   // Call the onHouseClick passed down from GroupoptionPage
