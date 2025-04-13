@@ -1,43 +1,95 @@
-/* ChoosepetPage.module.css */
+/* 
+   ChoosepetPage.module.css
+   Make sure the SVG banner has the white strip + "WELCOME NEW USER!" text/graphics
+*/
 
-/* Ensure body and html fill the entire screen */
+/* Reset default margins/padding */
 html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  background-color: white;
+  font-family: "sans-serif";
+  /* Or your preferred font */
 }
 
-/* Container that fills the screen and centers content */
-.container {
+/* 
+  The main wrapper fills the screen with a green background.
+  We center everything vertically & horizontally, 
+  but leave enough space at the top for the banner image.
+*/
+.pageWrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: #4E6B42;
+  /* A green background, adjust as needed */
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: white;
-  text-align: center;
+  position: relative;
+  /* So we can position items inside if needed */
 }
 
-/* Optional styling for the button and title */
-h1 {
-  font-size: 3rem;
-  margin-bottom: 2rem;
-  color: #28a745; /* Bootstrap success green */
+/* 
+  The banner image typically will be the full width or nearly so. 
+  Adjust max-width or margins to match your screenshot exactly.
+*/
+.bannerImage {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
 }
 
-button {
-  padding: 0.75rem 1.5rem;
-  font-size: 1.25rem;
-  background-color: #28a745;
-  color: white;
+/* 
+  "Choose your pet" text 
+  (the screenshot shows a white-ish text, so pick a color that pops)
+*/
+.chooseText {
+  margin-top: 40px;
+  color: #fff;
+  /* white text on green background */
+  font-size: 2rem;
+}
+
+/* 
+  Container for the pet images
+*/
+.petContainer {
+  display: flex;
+  gap: 2rem;
+  /* space between images */
+  margin-top: 30px;
+  justify-content: center;
+}
+
+/* 
+  Each button that holds a pet image
+*/
+.petButton {
+  background: none;
   border: none;
-  border-radius: 8px;
+  padding: 0;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #218838;
+.petButton:hover {
+  padding: 10px;
+ border-radius: 9px;
 }
+
+/*
+  The pet images themselves, so they’re a consistent size
+*/
+.petImage {
+  width: 120px;
+  height: auto;
+}
+
+/* 
+  Show chosen pet text
+*/
+.selectedPet {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
