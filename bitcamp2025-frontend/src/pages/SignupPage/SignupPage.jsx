@@ -39,13 +39,82 @@ const SignupPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Sign Up</h2>
+    <div className={styles.background}>
       <form className={styles.form} onSubmit={createAccount}>
-        <input type="text" name="name" placeholder="Full Name" />
-        <input type="email" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
-        <button type="submit">Create Account</button>
+      <div className={styles.inputs}>
+        <div className={styles.mograFont}>
+
+          {/* username text and input box */}
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
+              <label htmlFor="username" style={{ display: "flex", width: "120px", justifyContent: "flex-end" }}>
+                <span style={{ minWidth: "80px", textAlign: "right" }}>username</span>
+                <span style={{ paddingLeft: "3px" }}>:</span>
+              </label>
+            <input
+              type="text" name="name" required style={{
+                marginLeft: "2ch",
+                backgroundColor: "#A6C48A",
+                padding: "1px",
+                border: "2px solid #6a8042",
+                borderRadius: "6px",
+                width: "500px"
+              }}
+            />
+          </div>
+
+          {/* email text and input box */}
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
+            
+            <label htmlFor="email" style={{ display: "flex", width: "120px", justifyContent: "flex-end" }}>
+              <span style={{ minWidth: "80px", textAlign: "right" }}>email</span>
+              <span style={{ paddingLeft: "3px" }}>:</span>
+            </label>
+            
+            <input
+              type="text" name="name" required style={{
+                marginLeft: "2ch",
+                backgroundColor: "#A6C48A",
+                padding: "1px",
+                border: "2px solid #6a8042",
+                borderRadius: "6px",
+                width: "500px"
+              }}
+            />
+          </div>
+
+          {/* password text and input box */}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <label 
+              htmlFor="password" 
+              style={{ display: "flex", width: "120px", justifyContent: "flex-end" }}>
+              <span style={{ minWidth: "80px", textAlign: "right" }}>password</span>
+              <span style={{ paddingLeft: "3px" }}>:</span>
+            </label>
+            <input
+              type="password" name="password"
+              style={{
+                marginLeft: "2ch",
+                backgroundColor: "#A6C48A",
+                padding: "1px",
+                border: "2px solid #6a8042",
+                borderRadius: "6px",
+                width: "500px"
+              }}
+            />
+          </div>
+          
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "20px"}}>  
+            <button style={{border: "2px solid #6a8042", 
+            backgroundColor: "#FFFFFF", 
+            padding: "5px 10px", 
+            borderRadius: "6px",
+            color: "#6a8042",
+            fontSize: "1.5rem"}}type="submit">confirm!</button>
+            </div>
+          </div>
+          
+      </div>
+        
       </form>
     </div>
   );

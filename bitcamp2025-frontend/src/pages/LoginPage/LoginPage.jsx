@@ -39,6 +39,9 @@ const LoginPage = () => {
     <div className={styles.background}>
       <form className={styles.form} onSubmit={handleLogin}>
         <div className={styles.mograFont}>
+
+
+          
           <div className={styles.inputs}>
           <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
             <label htmlFor="email" style={{ display: "flex", width: "120px", justifyContent: "flex-end" }}>
@@ -80,6 +83,10 @@ const LoginPage = () => {
           </div>
           </div>
         </div>
+
+
+
+        {/* stylized confirm button */}
         <div className={styles.mograFont}>
           <div style={{ display: "flex", justifyContent: "center", marginTop: "20px"}}>  
             <button style={{border: "2px solid #6a8042", 
@@ -90,6 +97,9 @@ const LoginPage = () => {
             fontSize: "1.5rem"}}type="submit">confirm!</button>
           </div>
         </div>
+
+
+
       </form>
     </div>
   );
