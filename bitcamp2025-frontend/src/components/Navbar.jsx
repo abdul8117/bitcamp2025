@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <button className={styles.button} onClick={() => navigate(-1)}>Back</button>
-      <div className={styles.mograFont}>The Nest</div>
+      <div className={styles.mograFont}>The Nest-Task List</div>
       <div className={styles.links}>
         <Link to="/" className={styles.link}>Home</Link>
         <Link to="/login" className={styles.link}>Login</Link>
