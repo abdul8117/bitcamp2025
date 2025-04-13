@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./TasklistPage.module.css";
 import Navbar from "../../components/Navbar";
@@ -12,12 +12,23 @@ const TasklistPage = () => {
   const [userpet, setuserPet] = useState(null);
   //list of household pets by fetching so start with empty array
   const [houseHoldPet, setHouseHoldPet] = useState([]);
+  //add the household pets with the svg imports
+  useEffect(() => {
+    setHouseHoldPet([
+      { id: 1, name: "Duckling", svg: duckling },
+      { id: 2, name: "Dove", svg: dove },
+      { id: 3, name: "Swan", svg: swan },
+      { id: 4, name: "Swan", svg: swan },
+    ]);
 
+    setuserPet(swan);
+  }, []);
 
   const [tasks, setTasks] = useState([
     { id: 1, name: "Task 1", completed: false },
     { id: 2, name: "Task 2", completed: false },
     { id: 3, name: "Task 3", completed: false },
+    { id: 4, name: "Task 4", completed: false },
   ]);
 
   const handleFetchUserPet = () => {
@@ -56,6 +67,12 @@ const TasklistPage = () => {
   const handleDeleteTask = (id) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     // handle backend logic: delete task from database
+  };
+
+  const rotationDegrees = {
+    Duckling: 15,
+    Dove: -10,
+    Swan: 5,
   };
 
   return (
@@ -103,11 +120,24 @@ const TasklistPage = () => {
           <h1 className={styles.title}>Task List Page</h1>
 
           <div className={styles.Nest}>
-            <img
-              src={userpet === "duckling" ? duckling : userpet === "dove" ? dove : swan}
-              alt="Pet"
-              className={styles.petImage }
-            />
+            <div className={styles.petContainer}>
+              {houseHoldPet.map((pet) => (
+                <img
+                  key={pet.id}
+                  src={pet.svg}
+                  alt={pet.name}
+                  className={styles.petImage}
+                  style={{ transform: `rotate(${rotationDegrees[pet.name]}deg)` }}
+                />
+              ))}
+                <img
+                  src={userpet}
+                  alt="Pet"
+                  className={styles.petImage }
+                />
+
+
+            </div>
           </div>
           
 
