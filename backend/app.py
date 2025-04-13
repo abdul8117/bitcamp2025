@@ -126,6 +126,16 @@ def add_chore():
 
     return jsonify({'message': 'Chore added'}), 201
 
+@app.route("/get-pets-of-household", methods=["GET"])
+def get_pets_of_household():
+    user_email = session.get('user', {}).get('email')
+    user_id = get_user(user_email)[0]
+
+    household_id = get_household_by_user_id(user_id)
+    pets = get_pets_for_household(household_id)
+
+    return jsonify(pets), 200
+
 # @app.route("/get-houses", methods=["POST"])
 # def get_houses():
 #     user_email = session.get('user', {}).get('email')

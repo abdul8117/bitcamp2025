@@ -2,28 +2,19 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./TasklistPage.module.css";
 import Navbar from "../../components/Navbar";
+
+// Import your SVGs
 import duckling from "../../assets/yellowduckling.svg";
 import dove from "../../assets/bird.svg";
 import swan from "../../assets/duck.svg";
 
 const TasklistPage = () => {
   const navigate = useNavigate();
-  //useState for the pet
-  const [userpet, setuserPet] = useState(null);
-  //list of household pets by fetching so start with empty array
+
+  // State to store household pets
   const [houseHoldPet, setHouseHoldPet] = useState([]);
-  //add the household pets with the svg imports
-  useEffect(() => {
-    setHouseHoldPet([
-      { id: 1, name: "Duckling", svg: duckling },
-      { id: 2, name: "Dove", svg: dove },
-      { id: 3, name: "Swan", svg: swan },
-      { id: 4, name: "Swan", svg: swan },
-    ]);
 
-    setuserPet(swan);
-  }, []);
-
+  // State for tasks
   const [tasks, setTasks] = useState([
     { id: 1, name: "Task 1", completed: false },
     { id: 2, name: "Task 2", completed: false },
@@ -31,22 +22,48 @@ const TasklistPage = () => {
     { id: 4, name: "Task 4", completed: false },
   ]);
 
-  const handleFetchUserPet = () => {
-    // Fetch user's pet from backend
-    //if fetched pet is =="duckling", "dove", "swan" then show the corresponding SVG
-    setuserPet("duckling");
-    // setPet("dove");
-    // setPet("swan");
-
+  // Helper object for selecting the correct SVG
+  const petImages = {
+    duckling: duckling,
+    dove: dove,
+    swan: swan,
   };
 
-  const handleHouseHoldPet = () => {
-    // Fetch user's pet from backend
-    //if fetched pet is =="duckling", "dove", "swan" then show the corresponding SVG
-    // setPet("dove");
-    // setPet("swan");
-
+  // Optional rotation for each pet type
+  const rotationDegrees = {
+    duckling: 15,
+    dove: -10,
+    swan: 5,
   };
+
+  // Fetch the household pets on mount
+  useEffect(() => {
+    async function fetchHouseHoldPet() {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/get-pets-of-household",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch household pets");
+        }
+        const pets = await response.json();
+        // pets should be array of objects:
+        // e.g. [{pet_id:1, user_id:5, user_name:"Alice", pet_type:"duckling"}, ...]
+        console.log(pets);
+        setHouseHoldPet(pets);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchHouseHoldPet();
+  }, []);
+
+  // Handlers for tasks
   const handleClickTaskCreation = () => {
     navigate("/taskcreation");
   };
@@ -61,24 +78,17 @@ const TasklistPage = () => {
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
-    // handle backend logic: update task completion status
   };
 
   const handleDeleteTask = (id) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-    // handle backend logic: delete task from database
-  };
-
-  const rotationDegrees = {
-    Duckling: 15,
-    Dove: -10,
-    Swan: 5,
   };
 
   return (
     <div className={styles.container}>
       <Navbar />
       <div className={styles.content}>
+        {/* LEFT SIDE: Task List */}
         <div className={styles.Left}>
           <div className={styles.ToDoList}>
             <h2>Your To-Do List</h2>
@@ -98,7 +108,9 @@ const TasklistPage = () => {
                   {task.completed && (
                     <button
                       className={styles.deleteButton}
-                      onClick={() => handleDeleteTask(task.id)}> ❌
+                      onClick={() => handleDeleteTask(task.id)}
+                    >
+                      ❌
                     </button>
                   )}
                 </li>
@@ -106,47 +118,47 @@ const TasklistPage = () => {
             </ul>
 
             <div className={styles.buttonContainer}>
-              <button onClick={handleClickTaskCreation} className={styles.imageButton}>
+              <button
+                onClick={handleClickTaskCreation}
+                className={styles.imageButton}
+              >
                 Create Task
               </button>
-              <button onClick={handleClickEditTask} className={styles.imageButton}>
+              <button
+                onClick={handleClickEditTask}
+                className={styles.imageButton}
+              >
                 Edit Task
               </button>
             </div>
           </div>
         </div>
 
+        {/* RIGHT SIDE: Household Pets */}
         <div className={styles.Right}>
           <h1 className={styles.title}>Task List Page</h1>
-
           <div className={styles.Nest}>
             <div className={styles.petContainer}>
-              {houseHoldPet.map((pet) => (
-                <img
-                  key={pet.id}
-                  src={pet.svg}
-                  alt={pet.name}
-                  className={styles.petImage}
-                  style={{ transform: `rotate(${rotationDegrees[pet.name]}deg)` }}
-                />
-              ))}
-                <img
-                  src={userpet}
-                  alt="Pet"
-                  className={styles.petImage }
-                />
+              {houseHoldPet.map((pet) => {
+                // pick the correct svg & rotation
+                const imgSrc = petImages[pet[3]];
+                const rotate = rotationDegrees[pet[3]] || 0;
 
-
+                return (
+                  <img
+                    key={pet[0]}
+                    src={imgSrc}
+                    alt={pet.pet_type}
+                    className={styles.petImage}
+                    style={{ transform: `rotate(${rotate}deg)` }}
+                  />
+                );
+              })}
             </div>
           </div>
-          
-
-
         </div>
-
-        </div>
-
       </div>
+    </div>
   );
 };
 

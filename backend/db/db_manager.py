@@ -156,3 +156,35 @@ def add_chore_to_household(chore_name, repeat, household_id):
   cursor.execute('INSERT INTO Chore (household_id, name, description, recurrence_id) VALUES (?, ?, ?, ?)', (household_id, chore_name, 'empty', row_id))
   conn.commit()
   conn.close()
+
+def get_pets_for_household(household_id):
+  conn = sqlite3.connect(DB_NAME)
+  cursor = conn.cursor()
+
+  query = '''
+    SELECT 
+        p.pet_id,
+        p.user_id,
+        u.name,
+        p.pet_type
+    FROM Pet p
+    JOIN UserHousehold uh ON p.user_id = uh.user_id
+    JOIN User u ON uh.user_id = u.user_id
+    WHERE uh.household_id = ?;
+  '''
+
+  cursor.execute(query, (household_id,))
+  pets = cursor.fetchall()
+  conn.close()
+
+  pets_list = []
+  for row in pets:
+      # row = [pet_id, user_id, user_name, pet_type]
+      pets_list.append({
+          'pet_id': row[0],
+          'user_id': row[1],
+          'user_name': row[2],
+          'pet_type': row[3]
+      })
+      
+  return pets_list
