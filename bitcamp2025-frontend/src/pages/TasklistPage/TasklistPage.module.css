@@ -11,14 +11,27 @@ body {
 
 /* Container that fills the screen and centers content */
 .container {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: white;
-  text-align: center;
+  text-align: center; */
+
+   /* Use the SVG background */
+   background: url("../../assets/treebackground1.svg") no-repeat center top;
+   background-size: cover;
+   /* Full viewport height so it occupies the whole screen */
+   width: 100%;
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   /* We’ll space top (title/buttons) and bottom (animals) */
+   justify-content: space-between;
 }
+
+
 
 /* Optional styling for the button and title */
 h1 {
