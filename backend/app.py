@@ -100,14 +100,14 @@ def join_group():
 
     return jsonify({'message': 'Group joined', 'household_id': group_id, 'user_id': user_id}), 201
 
-@app.route("/get-houses", methods=["GET"])
-def get_houses():
-    user_email = session.get('user', {}).get('email')
-    user_id = get_user(user_email)[0]
+# @app.route("/get-houses", methods=["POST"])
+# def get_houses():
+#     user_email = session.get('user', {}).get('email')
+#     user_id = get_user(user_email)[0]
 
-    houses = get_user_households(user_id)
+#     houses = get_user_households(user_id)
     
-    return jsonify(houses), 200
+#     return jsonify(houses), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
