@@ -10,7 +10,7 @@ def create_database():
   cursor.execute('DROP TABLE IF EXISTS User')
   cursor.execute('DROP TABLE IF EXISTS Household')
   cursor.execute('DROP TABLE IF EXISTS UserHousehold')
-  cursor.execute('DROP TABLE IF EXISTS Chores')
+  cursor.execute('DROP TABLE IF EXISTS Chore')
   cursor.execute('DROP TABLE IF EXISTS ChoreRecurrence')
   cursor.execute('DROP TABLE IF EXISTS ChoreAssignment')
   cursor.execute('DROP TABLE IF EXISTS ChoreCompletion')

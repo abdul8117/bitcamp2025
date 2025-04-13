@@ -58,5 +58,16 @@ def me():
         return jsonify({'name': name})
     return jsonify({'error': 'Unauthorized'}), 401
 
+@app.route('/set-pet', methods=['POST'])
+def set_pet():
+    data = request.json
+    pet_type = data.get('pet_type')
+    user_email = session.get('email')
+
+    user_id = get_user(user_email)[0] # get user from the database
+    assign_pet_to_user(user_id, pet_type) # add pet to the database with the user id and pet type
+    
+    return jsonify({'message': 'Pet added'}), 201 # readback success
+
 if __name__ == '__main__':
     app.run(debug=True)
