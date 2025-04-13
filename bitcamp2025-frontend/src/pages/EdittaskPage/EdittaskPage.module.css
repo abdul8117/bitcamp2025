@@ -7,16 +7,49 @@ body {
   padding: 0;
   height: 100%;
   background-color: white;
+  overflow: hidden; /* Prevent scrolling */
+  background: url("../../assets/Edit Task.svg") no-repeat center top;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+}
+
+.mograFont {
+  font-family: 'Mogra', sans-serif;
+  /* This is the font used in the mockup */
+}
+
+.taskContainer {
+  color: #6290C3;
+  flex-direction: column; /* Enables Flexbox */
+  justify-content: center; /* Centers items horizontally */
+  gap: 10%; /* Adds space between the task text and the box */
+  width: 100%; /* Ensures the container spans the full width */
+}
+
+.task {
+  align-items: "center";
+  flex-direction: row;
+  font-size: 1.5rem;
+}
+
+.box {
+  width: 300px;
+  height: 25px;
+  background-color: #f0f0f0;
+  border: 2px solid #6290C3;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center; /* Centers the text inside the box */
+  align-items: center; /* Centers the text inside the box */
 }
 
 /* Container that fills the screen and centers content */
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: white;
+  justify-content: center;      /* center horizontally */
+  align-items: center;          /* center vertically */
   text-align: center;
 }
 
