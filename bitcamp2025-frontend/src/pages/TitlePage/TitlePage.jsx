@@ -24,15 +24,11 @@ function TitlePage() {
 
         {/* Buttons side by side */}
         <div className="d-inline-flex gap-3 mt-3">
-          <button className="btn btn-outline-success btn-lg">
-            <p className={styles.mograFont} style={{ margin: 0 }}>
-              login
-            </p>
+          <button onClick={() => navigate("/login")} className="btn btn-outline-success btn-lg">
+            <p className={styles.mograFont} style={{ margin: 0 }}>login</p>
           </button>
-          <button className="btn btn-outline-success btn-lg">
-            <p className={styles.mograFont} style={{ margin: 0 }}>
-              sign up
-            </p>
+          <button onClick={() => navigate("/signup")} className="btn btn-outline-success btn-lg">
+            <p className={styles.mograFont} style={{ margin: 0 }}>sign up</p>
           </button>
         </div>
       </div>
