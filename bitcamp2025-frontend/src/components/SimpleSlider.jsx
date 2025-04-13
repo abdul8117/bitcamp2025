@@ -19,7 +19,7 @@ const images = [
   { src: house6, title: "Luxury Estate" },
 ];
 
-const SimpleSlider = () => {
+const SimpleSlider = ({ onHouseClick }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
 
@@ -44,6 +44,9 @@ const SimpleSlider = () => {
               onClick={() => {
                 if (swiperRef.current && swiperRef.current.realIndex !== index) {
                   swiperRef.current.slideToLoop(index);
+                } else {
+                  // Call the onHouseClick passed down from GroupoptionPage
+                  onHouseClick(index);
                 }
               }}
               style={{
