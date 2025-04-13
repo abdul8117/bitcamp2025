@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./GroupoptionPage.module.css";
 import makeGroupImg from "../../assets/makegroup.svg";
 import joinGroupImg from "../../assets/joingroup.svg";
-import SimpleSlider from "../../components/SimpleSlider";
+// import SimpleSlider from "../../components/SimpleSlider";
 
 const GroupoptionPage = () => {
   const navigate = useNavigate();
@@ -53,12 +53,12 @@ const GroupoptionPage = () => {
         </div>
       </div>
 
-      <div className={styles.Right}>
+      {/* <div className={styles.Right}>
         <h1 className={styles.title}>Group Option Page</h1>
         <div className={styles.sliderContainer}>
           <SimpleSlider onHouseClick={handleNavigateToHouse} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
