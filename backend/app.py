@@ -136,6 +136,61 @@ def get_pets_of_household():
 
     return jsonify(pets), 200
 
+@app.route("/get-household-chores", methods=["POST"])
+def get_household_chores():
+    user_email = session.get('user', {}).get('email')
+    user_id = get_user(user_email)[0]
+    household_id = get_household_by_user_id(user_id)
+    chores = get_chores_for_household(household_id)
+    return jsonify(chores), 200
+
+# Add to app.py
+@app.route('/assign-chore', methods=['POST'])
+def assign_chore():
+    data = request.json
+    chore_id = data.get('chore_id')
+    user_id = data.get('user_id')
+    
+    try:
+        assign_chore_to_user(chore_id, user_id, datetime.date.today())
+        return jsonify({'message': 'Chore assigned'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/complete-chore', methods=['POST'])
+def complete_chore():
+    data = request.json
+    assignment_id = data.get('assignment_id')
+    user_email = session.get('user', {}).get('email')
+    user_id = get_user(user_email)[0]
+    
+    try:
+        complete_chore(assignment_id, user_id)
+        return jsonify({'message': 'Chore completed'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/rotate-assignments', methods=['POST'])
+def rotate_assignments():
+    user_email = session.get('user', {}).get('email')
+    user_id = get_user(user_email)[0]
+    household_id = get_household_by_user_id(user_id)
+    
+    try:
+        rotate_assignments(household_id)
+        return jsonify({'message': 'Assignments rotated'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/get-household-members', methods=['GET'])
+def get_household_members():
+    user_email = session.get('user', {}).get('email')
+    user_id = get_user(user_email)[0]
+    household_id = get_household_by_user_id(user_id)
+    
+    members = get_household_members_db(household_id)
+    return jsonify(members), 200
+
 # @app.route("/get-houses", methods=["POST"])
 # def get_houses():
 #     user_email = session.get('user', {}).get('email')

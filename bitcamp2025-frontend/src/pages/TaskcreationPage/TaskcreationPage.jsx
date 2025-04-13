@@ -1,11 +1,31 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./TaskcreationPage.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //simple Taskcreation page
 
 const TaskcreationPage = () => {
+  const arrowButtonStyle = {
+    border: "none",
+    background: "transparent",
+    fontSize: "2rem",
+    cursor: "pointer",
+    color: "black",
+  };
+
+  const actionButtonStyle = {
+    borderRadius: "10px",
+    background: "#6290C3",
+    border: "2px solid white",
+    padding: "5px",
+    width: "100px",
+    fontSize: "1.25rem",
+  };
+
   const navigate = useNavigate();
+
+  const [members, setMembers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   // State to manage the task name
   const [task, setTask] = useState("");
@@ -89,10 +109,29 @@ const TaskcreationPage = () => {
     }
   };
 
+  useEffect(() => {
+    // Fetch household members
+    fetch("http://127.0.0.1:5000/get-household-members", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setMembers(data);
+        if (data.length > 0) setSelectedMember(data[0].user_id);
+      });
+  }, []);
+
+  // Replace chargeText state and arrow handlers with:
+  const handleMemberChange = (e) => {
+    setSelectedMember(e.target.value);
+  };
+
   return (
     <div className={styles.mograFont}>
       <div className={styles.container}>
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {/* Task Name Input */}
           <div style={{ display: "flex", flexDirection: "row", gap: "8%" }}>
             <div className={styles.task}>
               <span style={{ color: "#6290C3" }}>task:</span>
@@ -100,99 +139,60 @@ const TaskcreationPage = () => {
             <input
               style={{ height: "35px", width: "400px" }}
               className={styles.box}
-              onChange={(e) => setTask(e.target.value)} // Update task state on input change
+              onChange={(e) => setTask(e.target.value)}
               placeholder="task name"
-            ></input>
+            />
           </div>
 
-          {/* Option 2 */}
+          {/* Recurrence Selection */}
           <div
             style={{
-              display: "flex", // Enables Flexbox
-              flexDirection: "row", // Default: horizontal alignment
-              justifyContent: "flex-start", // Aligns items to the left
-              alignItems: "center", // Vertically aligns items
-              gap: "10px", // Adds spacing between items
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "10px",
             }}
           >
             <div className={styles.task}>
               <span style={{ color: "#6290C3" }}>repeat every:</span>
             </div>
-            {/* Left Arrow Button */}
-            <button
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "2rem",
-                cursor: "pointer",
-                color: "black",
-              }}
-              onClick={handleLeftArrowTime}
-            >
-              &#8592; {/* Left arrow symbol */}
+            <button style={arrowButtonStyle} onClick={handleLeftArrowTime}>
+              &#8592;
             </button>
             <div style={{ width: "100px" }} className={styles.box}>
               <span style={{ color: "#6290C3" }}>{timeText}</span>
             </div>
-            {/* Right Arrow */}
-            <button
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "2rem",
-                cursor: "pointer",
-                color: "black",
-              }}
-              onClick={handleRightArrowTime}
-            >
-              &#8594; {/* Right arrow symbol */}
+            <button style={arrowButtonStyle} onClick={handleRightArrowTime}>
+              &#8594;
             </button>
           </div>
 
-          {/* Option 3 */}
+          {/* Assignment Selection */}
           <div
             style={{
-              display: "flex", // Enables Flexbox
-              flexDirection: "row", // Default: horizontal alignment
-              justifyContent: "flex-start", // Aligns items to the left
-              alignItems: "center", // Vertically aligns items
-              gap: "10px", // Adds spacing between items
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "10px",
             }}
           >
             <div className={styles.task}>
-              <span style={{ color: "#6290C3" }}>who is in charge of it?</span>
+              <span style={{ color: "#6290C3" }}>assign to:</span>
             </div>
-            {/* Left Arrow Button */}
-            <button
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "2rem",
-                cursor: "pointer",
-                color: "black",
-              }}
-              onClick={handleLeftArrowCharge}
+            <select
+              value={selectedMember}
+              onChange={handleMemberChange}
+              className={styles.memberSelect}
             >
-              &#8592; {/* Left arrow symbol */}
-            </button>
-            <div style={{ width: "100px" }} className={styles.box}>
-              <span style={{ color: "#6290C3" }}>{chargeText}</span>
-            </div>
-            {/* Right Arrow */}
-            <button
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "2rem",
-                cursor: "pointer",
-                color: "black",
-              }}
-              onClick={handleRightArrowCharge}
-            >
-              &#8594; {/* Right arrow symbol */}
-            </button>
+              {members.map((member) => (
+                <option key={member.user_id} value={member.user_id}>
+                  {member.name}
+                </option>
+              ))}
+            </select>
           </div>
 
+          {/* Action Buttons */}
           <div
             style={{
               display: "flex",
@@ -201,30 +201,10 @@ const TaskcreationPage = () => {
               justifyContent: "center",
             }}
           >
-            <button
-              style={{
-                borderRadius: "10px",
-                background: "#6290C3",
-                border: "2px solid white",
-                padding: "5px",
-                width: "100px",
-                fontSize: "1.25rem",
-              }}
-              onClick={handleConfirmTask}
-            >
+            <button style={actionButtonStyle} onClick={handleConfirmTask}>
               confirm
             </button>
-            <button
-              style={{
-                borderRadius: "10px",
-                background: "#6290C3",
-                border: "2px solid white",
-                padding: "5px",
-                width: "100px",
-                fontSize: "1.25rem",
-              }}
-              onClick={() => navigate(-1)}
-            >
+            <button style={actionButtonStyle} onClick={() => navigate(-1)}>
               back
             </button>
           </div>

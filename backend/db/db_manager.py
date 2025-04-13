@@ -188,3 +188,131 @@ def get_pets_for_household(household_id):
       })
       
   return pets_list
+
+def get_chores_for_household(household_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    query = '''
+    SELECT
+        c.chore_id,
+        c.name AS chore_name,
+        c.description AS chore_description,
+        h.name AS household_name,
+        cr.frequency,
+        cr.next_occurrence,
+        ca.assigned_date,
+        u.user_id AS assigned_user_id,
+        u.name AS assigned_user_name
+    FROM Chore c
+    JOIN Household h ON c.household_id = h.household_id
+    LEFT JOIN ChoreRecurrence cr ON c.recurrence_id = cr.recurrence_id
+    LEFT JOIN ChoreAssignment ca ON c.chore_id = ca.chore_id
+    LEFT JOIN User u ON ca.assigned_to = u.user_id
+    WHERE c.household_id = ?
+    '''
+
+    cursor.execute(query, (household_id,))
+    tasks = cursor.fetchall()
+    conn.close()
+
+    tasks_list = []
+    for row in tasks:
+        tasks_list.append({
+            'chore_id': row[0],
+            'chore_name': row[1],
+            'description': row[2],
+            'household': row[3],
+            'frequency': row[4],
+            'next_due': row[5],
+            'assigned_date': row[6],
+            'assigned_to': {
+                'user_id': row[7],
+                'name': row[8]
+            } if row[7] else None
+        })
+
+    return tasks_list
+
+# Add to db_manager.py
+def get_household_members_db(household_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    query = '''
+    SELECT u.user_id, u.name 
+    FROM User u
+    JOIN UserHousehold uh ON u.user_id = uh.user_id
+    WHERE uh.household_id = ?
+    '''
+    cursor.execute(query, (household_id,))
+    members = cursor.fetchall()
+    conn.close()
+    return [{'user_id': row[0], 'name': row[1]} for row in members]
+
+def assign_chore_to_user(chore_id, user_id, assigned_date):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO ChoreAssignment (chore_id, assigned_to, assigned_date)
+        VALUES (?, ?, ?)
+    ''', (chore_id, user_id, assigned_date))
+    conn.commit()
+    conn.close()
+
+def complete_chore(assignment_id, completed_by):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    
+    # Record completion
+    cursor.execute('''
+        INSERT INTO ChoreCompletion (assignment_id, completed_by)
+        VALUES (?, ?)
+    ''', (assignment_id, completed_by))
+    
+    # Update recurrence if needed
+    cursor.execute('''
+        UPDATE ChoreRecurrence
+        SET next_occurrence = DATE(next_occurrence, '+' || interval || ' ' || frequency_unit)
+        WHERE recurrence_id IN (
+            SELECT recurrence_id FROM Chore WHERE chore_id IN (
+                SELECT chore_id FROM ChoreAssignment WHERE assignment_id = ?
+            )
+        )
+    ''', (assignment_id,))
+    
+    conn.commit()
+    conn.close()
+
+def rotate_assignments(household_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    
+    # Get rotation order
+    cursor.execute('SELECT rotation_order FROM Household WHERE household_id = ?', (household_id,))
+    rotation_order = cursor.fetchone()[0].split(',')
+    
+    # Get all chores
+    chores = get_chores_for_household(household_id)
+    
+    # Get current assignments
+    cursor.execute('''
+        SELECT ca.chore_id, u.user_id 
+        FROM ChoreAssignment ca
+        JOIN User u ON ca.assigned_to = u.user_id
+        WHERE ca.chore_id IN (
+            SELECT chore_id FROM Chore WHERE household_id = ?
+        )
+    ''', (household_id,))
+    current_assignments = {row[0]: row[1] for row in cursor.fetchall()}
+    
+    # Rotate each chore
+    for chore in chores:
+        current_user = current_assignments.get(chore['chore_id'])
+        if current_user and rotation_order:
+            current_index = rotation_order.index(str(current_user))
+            next_index = (current_index + 1) % len(rotation_order)
+            new_user = rotation_order[next_index]
+            assign_chore_to_user(chore['chore_id'], new_user, datetime.date.today())
+    
+    conn.commit()
+    conn.close()
