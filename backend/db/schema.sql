@@ -13,7 +13,8 @@ CREATE TABLE User (
 ------------------------------------------------------------------------------
 CREATE TABLE Household (
     household_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name         TEXT NOT NULL
+    name         TEXT NOT NULL,
+    group_id     TEXT NOT NULL,  -- e.g. random num for users to join household
 );
 
 ------------------------------------------------------------------------------
