@@ -28,8 +28,20 @@ body {
 
 .Right {
   flex: 1;
-  /* Add your Right section styles here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
+
+.sliderContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 /* Optional styling for the button and title */
 h1 {
