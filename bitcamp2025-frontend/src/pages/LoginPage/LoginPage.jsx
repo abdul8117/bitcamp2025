@@ -29,7 +29,7 @@ const LoginPage = () => {
       const result = await res.json();
       console.log("Login successful:", result);
 
-      navigate("/home");
+      navigate("/groupoption"); 
     } catch (error) {
       console.error("Error logging in:", error);
     }

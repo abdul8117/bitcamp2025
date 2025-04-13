@@ -32,7 +32,7 @@ const SignupPage = () => {
       console.log("Account created successfully:", result);
 
       // Redirect to the home page after successful signup
-      navigate("/home");
+      navigate("/choosepet");
     } catch (error) {
       console.error("Error creating account:", error);
     }

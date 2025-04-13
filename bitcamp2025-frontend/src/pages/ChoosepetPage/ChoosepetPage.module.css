@@ -1,0 +1,43 @@
+/* ChoosepetPage.module.css */
+
+/* Ensure body and html fill the entire screen */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: white;
+}
+
+/* Container that fills the screen and centers content */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  text-align: center;
+}
+
+/* Optional styling for the button and title */
+h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #28a745; /* Bootstrap success green */
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
