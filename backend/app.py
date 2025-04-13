@@ -83,10 +83,10 @@ def make_group():
 
     user_id = get_user(user_email)[0]
 
-    create_household(group_name, group_id)
-    add_user_to_household(user_id, group_id)
+    household_id = create_household(group_name, group_id)
+    add_user_to_household(user_id, household_id)
 
-    return jsonify({'message': 'Group created', 'household_id': group_id, 'user_id': user_id}), 201
+    return jsonify({'message': 'Group created', 'household_id': household_id, 'group_id': group_id, 'user_id': user_id}), 201
 
 @app.route("/join-group", methods=["POST"])
 def join_group():
@@ -96,9 +96,20 @@ def join_group():
 
     user_id = get_user(user_email)[0]
 
-    add_user_to_household(user_id, group_id)
+    household_id = get_household_by_group_id(group_id)[0] 
+    add_user_to_household(user_id, household_id)
 
-    return jsonify({'message': 'Group joined', 'household_id': group_id, 'user_id': user_id}), 201
+    return jsonify({'message': 'Group joined', 'household_id': household_id, 'group_id': group_id, 'user_id': user_id}), 201
+
+@app.route("/get-chores-in-household", methods=["POST"])
+def get_chores_in_household():
+    user_email = session.get('user', {}).get('email')
+    user_id = get_user(user_email)[0]
+
+    household_id = get_household_by_user_id(user_id)
+    chores = get_chores_for_household(household_id)
+
+    return jsonify(chores), 200
 
 # @app.route("/get-houses", methods=["POST"])
 # def get_houses():
