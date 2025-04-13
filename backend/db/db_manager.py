@@ -50,7 +50,9 @@ def create_household(house_name, group_id):
   cursor = conn.cursor()
   cursor.execute('INSERT INTO Household (name, group_id) VALUES (?, ?)', (house_name, group_id))
   conn.commit()
+  new_id = cursor.lastrowid
   conn.close()
+  return new_id
 
 def add_user_to_household(user_id, household_id):
   conn = sqlite3.connect(DB_NAME)
@@ -58,6 +60,25 @@ def add_user_to_household(user_id, household_id):
   cursor.execute('INSERT INTO UserHousehold (user_id, household_id) VALUES (?, ?)', (user_id, household_id))
   conn.commit()
   conn.close()
+
+def get_household_by_group_id(group_id):
+  # we are assuming for now that each household has a unique group id
+  conn = sqlite3.connect(DB_NAME)
+  cursor = conn.cursor()
+  cursor.execute('SELECT * FROM Household WHERE group_id = ?', (group_id,))
+  household = cursor.fetchone()
+  conn.close()
+  return household
+
+def get_household_by_user_id(user_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('SELECT household_id FROM UserHousehold WHERE user_id = ?', (user_id,))
+    row = cursor.fetchone()  # row might be (123,) 
+    conn.close()
+    if row:
+        return row[0]        # Return 123 as an integer
+    return None
 
 def complete_chore(assignment_id, user_id, completed_at):
   conn = sqlite3.connect(DB_NAME)
@@ -104,6 +125,8 @@ def assign_pet_to_user(user_id, pet_type):
   cursor.execute('INSERT INTO Pet (user_id, pet_type) VALUES (?, ?)', (user_id, pet_type))
   conn.commit()
   conn.close()
+
+
 
 def get_user_households(user_id):
   conn = sqlite3.connect(DB_NAME)
