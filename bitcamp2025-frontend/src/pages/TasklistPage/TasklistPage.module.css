@@ -144,5 +144,15 @@ input[type="checkbox"] {
 }
 
 .Nest{
-  margin-top: 250px;
+  margin-top: 200px;
+  
+}
+
+.petContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  transform: rotate(-25deg) translateX(-120px);
+  transition: transform 0.3s ease-in-out;
 }
