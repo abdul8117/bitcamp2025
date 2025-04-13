@@ -30,6 +30,9 @@ function TitlePage() {
           <button onClick={() => navigate("/signup")} className="btn btn-outline-success btn-lg">
             <p className={styles.mograFont} style={{ margin: 0 }}>sign up</p>
           </button>
+          <button onClick={() => navigate("/tasklist")} className="btn btn-outline-success btn-lg">
+            <p className={styles.mograFont} style={{ margin: 0 }}>tasklist</p>
+          </button>
         </div>
       </div>
 
