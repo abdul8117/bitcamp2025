@@ -62,16 +62,14 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* email text and input box */}
+       {/* email text and input box */}
           <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
-            
             <label htmlFor="email" style={{ display: "flex", width: "120px", justifyContent: "flex-end" }}>
               <span style={{ minWidth: "80px", textAlign: "right" }}>email</span>
               <span style={{ paddingLeft: "3px" }}>:</span>
             </label>
-            
             <input
-              type="text" name="name" required style={{
+              type="text" name="email" required style={{
                 marginLeft: "2ch",
                 backgroundColor: "#A6C48A",
                 padding: "1px",
