@@ -12,12 +12,23 @@ body {
 /* Container that fills the screen and centers content */
 .container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
   height: 100vh;
-  background-color: white;
-  text-align: center;
+  background-color: #A6C48A;
+  overflow: hidden; /* hides buttons poking out */
+}
+
+
+
+.Left {
+  flex: 1;
+  position: relative; /* for absolute children */
+  overflow: visible;  /* allows buttons to peek out */
+}
+
+.Right {
+  flex: 1;
+  /* Add your Right section styles here */
 }
 
 /* Optional styling for the button and title */
@@ -40,4 +51,37 @@ button {
 
 button:hover {
   background-color: #218838;
+
+}
+
+.buttonContainer {
+  position: absolute;
+  top: -20%;
+  left: 10%;
+  display: flex;
+  gap: 1rem;
+}
+
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #28a745;
+  text-align: center;
+}
+
+
+.imageButton {
+  width: 200px; /* adjust as needed */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 10px;
+  border-radius: 90px;
+}
+
+.imageButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 90px;
 }
