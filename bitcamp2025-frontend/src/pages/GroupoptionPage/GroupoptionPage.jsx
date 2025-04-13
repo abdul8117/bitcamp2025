@@ -3,6 +3,7 @@ import styles from "./GroupoptionPage.module.css";
 import makeGroupImg from "../../assets/makegroup.svg"; // replace with your actual image paths
 import joinGroupImg from "../../assets/joingroup.svg";
 // import Slider from "../../components/Slider";
+import SimpleSlider from "../../components/SimpleSlider";
 
 const GroupoptionPage = () => {
   const navigate = useNavigate();
@@ -36,9 +37,9 @@ const GroupoptionPage = () => {
       </div>
 
       <div className ={styles.Right}>
-        {/* <div className ={styles.sliderContainer}>
-        <Slider />
-        </div> */}
+        <div className ={styles.sliderContainer}>
+        <SimpleSlider />
+        </div>
         
         
       </div>

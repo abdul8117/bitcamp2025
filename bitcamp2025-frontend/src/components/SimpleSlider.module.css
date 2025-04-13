@@ -1,0 +1,27 @@
+.sliderWrapper {
+  width: 80%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.swiper {
+  width: 100%;
+  height: auto;
+}
+
+.slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 1 / 1; /* Ensures square shape */
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Crops to fill square */
+  border-radius: 12px;
+}
