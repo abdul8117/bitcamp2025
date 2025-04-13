@@ -127,4 +127,4 @@ CREATE TABLE Pet (
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
-
+ALTER TABLE Household ADD COLUMN rotation_order TEXT;
