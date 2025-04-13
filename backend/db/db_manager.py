@@ -45,10 +45,10 @@ def get_chores(household_id):
   conn.close()
   return chores
 
-def create_household(house_name):
+def create_household(house_name, group_id):
   conn = sqlite3.connect(DB_NAME)
   cursor = conn.cursor()
-  cursor.execute('INSERT INTO Household (name) VALUES (?)', (house_name,))
+  cursor.execute('INSERT INTO Household (name, group_id) VALUES (?, ?)', (house_name, group_id))
   conn.commit()
   conn.close()
 

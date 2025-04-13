@@ -37,10 +37,10 @@ def initialize_test_database():
 
   # insert 2 fake households and 4 fake users - remove after testing
   create_households = '''
-    INSERT INTO Household (name) 
+    INSERT INTO Household (name, group_id) 
     VALUES 
-    ('Oakland'),
-    ('UView');
+    ('Oakland', '1'),
+    ('UView', '2');
   '''
   
   cursor.execute(create_households)
