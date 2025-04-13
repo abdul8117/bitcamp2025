@@ -17,7 +17,7 @@ const TaskcreationPage = () => {
   // State to manage the text in the box
   const [timeText, setTimeText] = useState("day");
   // Array of tasks to cycle through
-  const time = ["day", "week", "month"];
+  const time = ["every_day", "every_week", "every_month"];
 
   // State to manage the text in the box
   const [chargeText, setChargeText] = useState("you");
@@ -70,6 +70,7 @@ const TaskcreationPage = () => {
 
     try {
       const response = await fetch("http://127.0.0.1:5000/add-chore", {
+        credentials: "include",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
