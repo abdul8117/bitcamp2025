@@ -326,7 +326,8 @@ const EdittaskPage = () => {
                 width: "30%",
                 fontSize: "1.25rem",
               }}
-              onClick={handleEditingTask}>
+              onClick={handleEditingTask}
+            >
               confirm
             </button>
             <button
@@ -338,9 +339,12 @@ const EdittaskPage = () => {
                 width: "30%",
                 fontSize: "1.25rem",
               }}
-              onClick={() => navigate(-1)}>
+              onClick={() => navigate(-1)}
+            >
               go back
             </button>
+          </div>
+        </div>
       </div>
     </div>
   );
