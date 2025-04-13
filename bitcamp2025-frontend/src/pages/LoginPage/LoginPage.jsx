@@ -68,6 +68,7 @@ const LoginPage = () => {
             <input
               type="password"
               name="password"
+              required
               style={{
                 marginLeft: "2ch",
                 backgroundColor: "#A6C48A",
