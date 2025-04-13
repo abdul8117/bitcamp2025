@@ -115,3 +115,13 @@ CREATE TABLE ChoreDebt (
     FOREIGN KEY (debtor_id)   REFERENCES User(user_id),
     FOREIGN KEY (chore_id)    REFERENCES Chore(chore_id)
 );
+
+------------------------------------------------------------------------------
+-- 10) Pet
+------------------------------------------------------------------------------
+CREATE TABLE Pet (
+    pet_id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id  INTEGER NOT NULL,
+    pet_type TEXT NOT NULL CHECK (pet_type IN ('duckling', 'dove', 'swan')),
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+);

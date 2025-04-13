@@ -16,6 +16,8 @@ def create_database():
   cursor.execute('DROP TABLE IF EXISTS ChoreCompletion')
   cursor.execute('DROP TABLE IF EXISTS ChoreSubstitution')
   cursor.execute('DROP TABLE IF EXISTS ChoreDebt')
+  cursor.execute('DROP TABLE IF EXISTS Pet')
+  
   conn.commit()
 
   with open('schema.sql', 'r') as file:

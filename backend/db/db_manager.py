@@ -98,3 +98,9 @@ def get_users_in_household(household_id):
   conn.close()
   return users
   
+def assign_pet_to_user(user_id, pet_type):
+  conn = sqlite3.connect(DB_NAME)
+  cursor = conn.cursor()
+  cursor.execute('INSERT INTO PetAssignment (user_id, pet_type) VALUES (?, ?)', (user_id, pet_type))
+  conn.commit()
+  conn.close()
