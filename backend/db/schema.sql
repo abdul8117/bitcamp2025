@@ -126,3 +126,5 @@ CREATE TABLE Pet (
     pet_type TEXT NOT NULL CHECK (pet_type IN ('duckling', 'dove', 'swan')),
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
+
+
