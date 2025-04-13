@@ -125,3 +125,8 @@ input[type="checkbox"] {
 .deleteButton:hover {
   transform: scale(1.2);
 }
+
+.taskItem:hover {
+  background-color: #d3f5d3; /* Light green on hover */
+  transition: background-color 0.2s ease;
+}
