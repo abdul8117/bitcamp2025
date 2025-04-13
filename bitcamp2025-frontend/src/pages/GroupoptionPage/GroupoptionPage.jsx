@@ -37,13 +37,14 @@ const GroupoptionPage = () => {
       </div>
 
       <div className ={styles.Right}>
+       <h1 className={styles.title}>Group Option Page</h1>
         <div className ={styles.sliderContainer}>
-        <SimpleSlider />
+          <SimpleSlider />
         </div>
         
         
       </div>
-      <h1 className={styles.title}>Group Option Page</h1>
+      
 
     </div>
   );

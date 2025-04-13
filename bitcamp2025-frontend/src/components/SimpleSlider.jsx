@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import styles from "./SimpleSlider.module.css";
@@ -10,20 +10,57 @@ import house4 from "../assets/house4.png";
 import house5 from "../assets/house5.png";
 import house6 from "../assets/house6.png";
 
-const images = [house1, house2, house3, house4, house5, house6];
+const images = [
+  { src: house1, title: "Modern Villa" },
+  { src: house2, title: "Rustic Cottage" },
+  { src: house3, title: "Urban Loft" },
+  { src: house4, title: "Beach House" },
+  { src: house5, title: "Mountain Cabin" },
+  { src: house6, title: "Luxury Estate" },
+];
 
 const SimpleSlider = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const swiperRef = useRef(null);
+
   return (
     <div className={styles.sliderWrapper}>
+      <div className={styles.houseName}>
+        {images[activeIndex].title}
+      </div>
+
       <Swiper
-        slidesPerView={1}
+        slidesPerView={1.5}
         spaceBetween={20}
+        centeredSlides={true}
         loop={true}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className={styles.swiper}
       >
-        {images.map((src, index) => (
+        {images.map((img, index) => (
           <SwiperSlide key={index} className={styles.slide}>
-            <img src={src} alt={`House ${index + 1}`} />
+            <button
+              onClick={() => {
+                if (swiperRef.current && swiperRef.current.realIndex !== index) {
+                  swiperRef.current.slideToLoop(index);
+                }
+              }}
+              style={{
+                all: "unset",
+                width: "100%",
+                height: "100%",
+                cursor: "pointer",
+              }}
+            >
+              <div
+                className={`${styles.imageWrapper} ${
+                  activeIndex === index ? styles.activeImage : ""
+                }`}
+              >
+                <img src={img.src} alt={img.title} />
+              </div>
+            </button>
           </SwiperSlide>
         ))}
       </Swiper>
