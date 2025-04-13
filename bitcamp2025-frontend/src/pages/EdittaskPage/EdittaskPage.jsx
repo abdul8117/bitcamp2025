@@ -6,15 +6,17 @@ import styles from "./EdittaskPage.module.css";
 const EdittaskPage = () => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    // Navigate to the task page
-    navigate("/task");
+  const handleEditingTask = () => {
+    //task editing logic here
+    console.log("Task edited!");
   };
 
+  //multiple buttons need to be added 
+  //it don't even have to be a button
   return (
     <div className={styles.container}>
       <h1>Edit Task Page</h1>
-      <button onClick={handleClick}>Go to Task Page</button>
+      <button onClick={handleEditingTask}>EditingTask</button>
       <button onClick={() => navigate(-1)}>Back</button>
     </div>
   );

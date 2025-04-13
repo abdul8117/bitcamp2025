@@ -6,15 +6,15 @@ import styles from "./TaskcreationPage.module.css";
 const TaskcreationPage = () => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    // Navigate to the task page
-    navigate("/task");
+  const handleConfirmTask = () => {
+    //task confirmation logic here
+    console.log("Task confirmed!");
   };
 
   return (
     <div className={styles.container}>
       <h1>Task Creation Page</h1>
-      <button onClick={handleClick}>Go to Task Page</button>
+      <button onClick={handleConfirmTask}>Confirm</button>
       <button onClick={() => navigate(-1)}>Back</button>
     </div>
   );
