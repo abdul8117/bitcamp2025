@@ -137,7 +137,7 @@ input[type="checkbox"] {
   object-fit: contain; /* ensures image fits nicely inside the box */
 }
 .petImage:hover {
-  transform: scale(1.1);
+  transform: scale(20);
   transition: transform 0.2s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 60px;

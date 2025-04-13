@@ -7,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import duckling from "../../assets/yellowduckling.svg";
 import dove from "../../assets/bird.svg";
 import swan from "../../assets/duck.svg";
+import swangif from "../../assets/swan.gif";
 
 const TasklistPage = () => {
   const navigate = useNavigate();
@@ -60,6 +61,11 @@ const TasklistPage = () => {
     duckling: duckling,
     dove: dove,
     swan: swan,
+  };
+  const petGifs = {
+    duckling: swangif, // You'll need to import/create duckling GIF
+    dove: swangif, // You'll need to import/create dove GIF
+    swan: swangif,
   };
 
   // Optional rotation for each pet type
@@ -161,6 +167,10 @@ const TasklistPage = () => {
       .then(() => fetchChores()) // Refresh after rotation
       .catch((error) => console.error("Rotation error:", error));
   };
+
+  // Update the pet image rendering in the return statement
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
     <div className={styles.container}>
       <Navbar />
@@ -239,7 +249,9 @@ const TasklistPage = () => {
               {houseHoldPet.map((pet) => (
                 <img
                   key={pet.pet_id}
-                  src={petImages[pet.pet_type]}
+                  src={
+                    isHovering ? petGifs[pet.pet_type] : petImages[pet.pet_type]
+                  }
                   alt={pet.pet_type}
                   className={styles.petImage}
                   style={{
@@ -247,7 +259,10 @@ const TasklistPage = () => {
                       rotationDegrees[pet.pet_type] || 0
                     }deg)`,
                     margin: "10px",
+                    transition: "all 0.3s ease",
                   }}
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
                 />
               ))}
             </div>
