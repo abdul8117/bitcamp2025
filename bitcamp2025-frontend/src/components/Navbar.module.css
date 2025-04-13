@@ -1,17 +1,19 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Mogra&display=swap');
+.mograFont {
+  font-family: 'Mogra', sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  /* This is the font used in the mockup */
+}
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #282c34;
+  background-color: #4E6B42;
   color: white;
 }
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
 .links {
   display: flex;
   gap: 1rem;
@@ -25,5 +27,20 @@
 }
 
 .link:hover {
-  color: #61dafb;
+  color: #384d2f;
+}
+
+.button{
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #faf7e1;
+  color: #4E6B42;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #829e76;
 }

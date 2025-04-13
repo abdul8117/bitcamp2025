@@ -28,7 +28,6 @@ body {
    display: flex;
    flex-direction: column;
    /* We’ll space top (title/buttons) and bottom (animals) */
-   justify-content: space-between;
 }
 
 
