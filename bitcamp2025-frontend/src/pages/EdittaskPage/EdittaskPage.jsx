@@ -1,198 +1,179 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import styles from "./EdittaskPage.module.css";
-import { useState } from "react";
-
-//simple Edittask page
 
 const EdittaskPage = () => {
   const navigate = useNavigate();
 
-  // State to manage the text in the box
-  const [taskText, setTaskText] = useState("do laundry");
-  // Array of tasks to cycle through
-  const task = ["do laundry", "clean room", "buy groceries", "exercise"];
+  // 1) Store the entire chores array and the currently selected chore
+  const [chores, setChores] = useState([]);
+  const [selectedTask, setSelectedTask] = useState("");
 
-  // State to manage the text in the box
+  // States for your other arrow-based logic
   const [deleteText, setDeleteText] = useState("no");
-  // Array of deletions to cycle through
   const deletion = ["no", "yes"];
 
-  // State to manage the text in the box
   const [timeText, setTimeText] = useState("day");
-  // Array of tasks to cycle through
   const time = ["day", "week", "month"];
 
-  // State to manage the text in the box
   const [chargeText, setChargeText] = useState("you");
-  // Array of tasks to cycle through
   const charge = ["you", "me", "them"];
 
-  // State to manage the text in the box
   const [coverText, setCoverText] = useState("no");
-  // Array of deletions to cycle through
   const cover = ["no", "yes"];
 
-  // Function to handle left arrow click
-  const handleLeftArrowTask = () => {
-    setTaskText((prev) => {
-      const currentIndex = task.indexOf(prev);
-      const newIndex = (currentIndex - 1 + task.length) % task.length; // Wrap around
-      return task[newIndex];
-    });
-  };
+  // 2) On mount, fetch chores from the Flask route
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/get-chores-in-household", {
+      credentials: "include",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch chores");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        // data is the array of chores
+        setChores(data);
+        console.log("Chores from server:", data);
 
-  // Function to handle right arrow click
-  const handleRightArrowTask = () => {
-    setTaskText((prev) => {
-      const currentIndex = task.indexOf(prev);
-      const newIndex = (currentIndex + 1) % task.length; // Wrap around
-      return task[newIndex];
-    });
-  };
+        // Optionally set a default selected chore if you want:
+        if (data.length > 0) {
+          setSelectedTask(data[0].name);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-  // Function to handle left arrow click
+  // -- ARROW-BASED LOGIC FOR THE OTHER FIELDS --
+
   const handleLeftArrowDelete = () => {
     setDeleteText((prev) => {
       const currentIndex = deletion.indexOf(prev);
-      const newIndex = (currentIndex - 1 + deletion.length) % deletion.length; // Wrap around
+      const newIndex = (currentIndex - 1 + deletion.length) % deletion.length;
       return deletion[newIndex];
     });
   };
 
-  // Function to handle right arrow click
   const handleRightArrowDelete = () => {
     setDeleteText((prev) => {
       const currentIndex = deletion.indexOf(prev);
-      const newIndex = (currentIndex + 1) % deletion.length; // Wrap around
+      const newIndex = (currentIndex + 1) % deletion.length;
       return deletion[newIndex];
     });
   };
 
-  // Function to handle left arrow click
   const handleLeftArrowTime = () => {
     setTimeText((prev) => {
       const currentIndex = time.indexOf(prev);
-      const newIndex = (currentIndex - 1 + time.length) % time.length; // Wrap around
+      const newIndex = (currentIndex - 1 + time.length) % time.length;
       return time[newIndex];
     });
   };
 
-  // Function to handle right arrow click
   const handleRightArrowTime = () => {
     setTimeText((prev) => {
       const currentIndex = time.indexOf(prev);
-      const newIndex = (currentIndex + 1) % time.length; // Wrap around
+      const newIndex = (currentIndex + 1) % time.length;
       return time[newIndex];
     });
   };
 
-  // Function to handle left arrow click
   const handleLeftArrowCharge = () => {
     setChargeText((prev) => {
       const currentIndex = charge.indexOf(prev);
-      const newIndex = (currentIndex - 1 + charge.length) % charge.length; // Wrap around
+      const newIndex = (currentIndex - 1 + charge.length) % charge.length;
       return charge[newIndex];
     });
   };
 
-  // Function to handle right arrow click
   const handleRightArrowCharge = () => {
     setChargeText((prev) => {
       const currentIndex = charge.indexOf(prev);
-      const newIndex = (currentIndex + 1) % charge.length; // Wrap around
+      const newIndex = (currentIndex + 1) % charge.length;
       return charge[newIndex];
     });
   };
 
-  // Function to handle left arrow click
   const handleLeftArrowCover = () => {
     setCoverText((prev) => {
       const currentIndex = cover.indexOf(prev);
-      const newIndex = (currentIndex - 1 + cover.length) % cover.length; // Wrap around
+      const newIndex = (currentIndex - 1 + cover.length) % cover.length;
       return cover[newIndex];
     });
   };
 
-  // Function to handle right arrow click
   const handleRightArrowCover = () => {
     setCoverText((prev) => {
       const currentIndex = cover.indexOf(prev);
-      const newIndex = (currentIndex + 1) % cover.length; // Wrap around
+      const newIndex = (currentIndex + 1) % cover.length;
       return cover[newIndex];
     });
   };
 
   const handleEditingTask = () => {
-    //task editing logic here
-    console.log("Task edited!");
+    // Task editing logic here
+    console.log("Task edited! Selected chore is:", selectedTask);
   };
 
-  //multiple buttons need to be added
-  //it don't even have to be a button
+  // 3) Render
   return (
     <div className={styles.background}>
       <div className={styles.mograFont}>
+        {/* Display chores for testing (optional) */}
+        <div style={{ marginTop: "1rem" }}>
+          <h3>Chores in Your Household:</h3>
+          <ul>
+            {chores.map((chore) => (
+              <li key={chore.chore_id}>{chore.name}</li>
+            ))}
+          </ul>
+        </div>
+
         <div
           style={{ display: "flex", alignItems: "center" }}
           className={styles.taskContainer}
         >
-          {/* task */}
+          {/* 1) TASK (Now a Dropdown instead of arrows) */}
           <div
             style={{
               marginTop: "13%",
               display: "flex",
               gap: "5%",
               justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <div className={styles.task}>
-              <text>task:</text>
+              <span>task:</span>
             </div>
-            {/* Left Arrow Button */}
-            <button
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "2rem",
-                cursor: "pointer",
-                color: "black",
-              }}
-              onClick={handleLeftArrowTask}
+
+            {/* DROPDOWN for chores */}
+            <select
+              className={styles.dropdown}
+              value={selectedTask}
+              onChange={(e) => setSelectedTask(e.target.value)}
             >
-              &#8592; {/* Left arrow symbol */}
-            </button>
-            <div className={styles.box}>
-              <text>{taskText}</text>
-            </div>
-            {/* Right Arrow */}
-            <button
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "2rem",
-                cursor: "pointer",
-                color: "black",
-              }}
-              onClick={handleRightArrowTask}
-            >
-              &#8594; {/* Right arrow symbol */}
-            </button>
+              {chores.map((chore) => (
+                <option key={chore.chore_id} value={chore.name}>
+                  {chore.name}
+                </option>
+              ))}
+            </select>
           </div>
 
+          {/* 2) Column of Four Options (delete, repeat, who, cover) */}
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {/* Option 1 */}
-            <div
-              style={{
-                display: "flex", // Enables Flexbox
-                flexDirection: "row", // Default: horizontal alignment
-                justifyContent: "flex-start", // Aligns items to the left
-                alignItems: "center", // Vertically aligns items
-              }}
-            >
+            {/* Option 1: Delete forever? */}
+            <div style={{ display: "flex", alignItems: "center" }}>
               <div className={styles.task}>
-                <text>delete forever?</text>
+                <span>delete forever?</span>
               </div>
-              {/* Left Arrow Button */}
               <button
                 style={{
                   border: "none",
@@ -203,12 +184,11 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleLeftArrowDelete}
               >
-                &#8592; {/* Left arrow symbol */}
+                &#8592;
               </button>
               <div style={{ width: "100px" }} className={styles.box}>
-                <text>{deleteText}</text>
+                <span>{deleteText}</span>
               </div>
-              {/* Right Arrow */}
               <button
                 style={{
                   border: "none",
@@ -219,24 +199,15 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleRightArrowDelete}
               >
-                &#8594; {/* Right arrow symbol */}
+                &#8594;
               </button>
             </div>
 
-            {/* Option 2 */}
-            <div
-              style={{
-                display: "flex", // Enables Flexbox
-                flexDirection: "row", // Default: horizontal alignment
-                justifyContent: "flex-start", // Aligns items to the left
-                alignItems: "center", // Vertically aligns items
-                gap: "10px", // Adds spacing between items
-              }}
-            >
+            {/* Option 2: Repeat every? */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <div className={styles.task}>
-                <text>repeat every:</text>
+                <span>repeat every:</span>
               </div>
-              {/* Left Arrow Button */}
               <button
                 style={{
                   border: "none",
@@ -247,12 +218,11 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleLeftArrowTime}
               >
-                &#8592; {/* Left arrow symbol */}
+                &#8592;
               </button>
               <div style={{ width: "100px" }} className={styles.box}>
-                <text>{timeText}</text>
+                <span>{timeText}</span>
               </div>
-              {/* Right Arrow */}
               <button
                 style={{
                   border: "none",
@@ -263,24 +233,15 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleRightArrowTime}
               >
-                &#8594; {/* Right arrow symbol */}
+                &#8594;
               </button>
             </div>
 
-            {/* Option 3 */}
-            <div
-              style={{
-                display: "flex", // Enables Flexbox
-                flexDirection: "row", // Default: horizontal alignment
-                justifyContent: "flex-start", // Aligns items to the left
-                alignItems: "center", // Vertically aligns items
-                gap: "10px", // Adds spacing between items
-              }}
-            >
+            {/* Option 3: Who is in charge? */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <div className={styles.task}>
-                <text>who is in charge of it?</text>
+                <span>who is in charge of it?</span>
               </div>
-              {/* Left Arrow Button */}
               <button
                 style={{
                   border: "none",
@@ -291,12 +252,11 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleLeftArrowCharge}
               >
-                &#8592; {/* Left arrow symbol */}
+                &#8592;
               </button>
               <div style={{ width: "100px" }} className={styles.box}>
-                <text>{chargeText}</text>
+                <span>{chargeText}</span>
               </div>
-              {/* Right Arrow */}
               <button
                 style={{
                   border: "none",
@@ -307,24 +267,15 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleRightArrowCharge}
               >
-                &#8594; {/* Right arrow symbol */}
+                &#8594;
               </button>
             </div>
 
-            {/* Option 4 */}
-            <div
-              style={{
-                display: "flex", // Enables Flexbox
-                flexDirection: "row", // Default: horizontal alignment
-                justifyContent: "flex-start", // Aligns items to the left
-                alignItems: "center", // Vertically aligns items
-                gap: "10px", // Adds spacing between items
-              }}
-            >
+            {/* Option 4: Cover for them? */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <div className={styles.task}>
-                <text>cover for them?</text>
+                <span>cover for them?</span>
               </div>
-              {/* Left Arrow Button */}
               <button
                 style={{
                   border: "none",
@@ -335,12 +286,11 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleLeftArrowCover}
               >
-                &#8592; {/* Left arrow symbol */}
+                &#8592;
               </button>
               <div style={{ width: "100px" }} className={styles.box}>
-                <text>{coverText}</text>
+                <span>{coverText}</span>
               </div>
-              {/* Right Arrow */}
               <button
                 style={{
                   border: "none",
@@ -351,12 +301,22 @@ const EdittaskPage = () => {
                 }}
                 onClick={handleRightArrowCover}
               >
-                &#8594; {/* Right arrow symbol */}
+                &#8594;
               </button>
             </div>
           </div>
         </div>
 
+        {/* Confirm / Go Back Buttons */}
+        <div className={styles.container}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "8%",
+              width: "100%",
+            }}
+          >
             <button
               style={{
                 borderRadius: "10px",
@@ -385,4 +345,5 @@ const EdittaskPage = () => {
     </div>
   );
 };
+
 export default EdittaskPage;
